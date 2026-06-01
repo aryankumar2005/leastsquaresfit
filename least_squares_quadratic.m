@@ -1,6 +1,6 @@
 function model = least_squares_quadratic(data)
-
 % Fit a quadratic model Cost = c0 + c1*Range + c2*Range^2 using least squares.
+
 x = data.Range;
 y = data.Cost;
 x = x(:); 
