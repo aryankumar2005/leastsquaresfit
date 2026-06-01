@@ -52,3 +52,5 @@ in-sample fit.
 
 Run `script_C(extract())` to see the RMSE comparison and plot. The quadratic model 
 produces the lowest RMSE on this dataset.
+
+![Pricing Models](graph.png)
