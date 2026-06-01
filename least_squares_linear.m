@@ -1,6 +1,6 @@
 function model = least_squares_linear(data)
-
 % Fit a linear model Cost = m*Range + c using least squares.
+
 x = data.Range; 
 y = data.Cost; 
 
