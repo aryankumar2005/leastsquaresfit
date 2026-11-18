@@ -1,27 +1,17 @@
-function model = least_squares_logarithmic(data)
-% Fit a logarithmic model Cost = m*ln(Range) + c using least squares.
-% By substituting u = ln(Range), this becomes a linear model in u,
-% so the same normal equations approach applies.
+function [m, c] = least_squares_logarithmic(x, y)
+% least_squares_logarithmic - Fits y = m*ln(x) + c using least squares
+%
+% Inputs:
+% x - column of x values (e.g. battery range)
+% y - column of y values (e.g. cost)
+% Outputs:
+% m - gradient (change in y for each increase of 1 in ln(x))
+% c - intercept
+%
+% Example: [m, c] = least_squares_logarithmic(data.Range, data.Cost)
 
-x = data.Range; 
-y = data.Cost; 
-x = x(:); 
-y = y(:); 
-n = length(x); 
-u = log(x);
-sumu = sum(u);
-sumy = sum(y);
-sumu2 = sum(u.^2);
-sumuy = sum(u.*y);
-
-
-A = [sumu2, sumu;
-     sumu, n    ];
-b = [sumuy;
-     sumy ];
-
-coeffs = A \ b;
-model.m = coeffs(1);  % slope (£ per mile of range)
-model.c = coeffs(2);  % intercept (£)
+% Substituting u = ln(x) gives y = m*u + c, which is a straight line in u.
+% So fit a straight line to y against ln(x) using the linear function
+[m, c] = least_squares_linear(log(x), y);
 
 end
