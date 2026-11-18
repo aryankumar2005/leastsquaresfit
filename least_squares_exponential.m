@@ -1,20 +1,21 @@
-function model = least_squares_exponential(data)
-% Fit an exponential model Cost = a*exp(b*Range) using least squares.
+function [a, b] = least_squares_exponential(x, y)
+% least_squares_exponential - Fits an exponential y = a*exp(b*x) using
+% least squares
+%
+% Inputs:
+% x - column of x values (e.g. battery range)
+% y - column of y values (e.g. cost)
+% Outputs:
+% a, b - coefficients of the exponential
+%
+% Example: [a, b] = least_squares_exponential(data.Range, data.Cost)
 
-x = data.Range;
-y = data.Cost;
-x = x(:);
-y = y(:);
-n = length(x);
+% Taking ln of both sides gives ln(y) = ln(a) + b*x,
+% which is a straight line in x with gradient b and intercept ln(a).
+% So fit a straight line to ln(y) using the linear function
+[b, ln_a] = least_squares_linear(x, log(y));
 
-% Taking ln of both sides gives ln(Cost) = b*Range + ln(a)
-% which is a linear model — so we can solve it with the same
-% design matrix approach as the linear and quadratic functions.
-
-u = log(y);
-A = [ones(n,1), x];
-coeffs = A \ u;
-model.b = coeffs(2);        % exponent slope
-model.a = exp(coeffs(1));   % recover a from ln(a)
+% Get a back from ln(a)
+a = exp(ln_a);
 
 end
