@@ -1,31 +1,36 @@
-function model = least_squares_linear(data)
-% Fit a linear model Cost = m*Range + c using least squares.
+function [m, c] = least_squares_linear(x, y)
+% least_squares_linear - Fits a straight line y = m*x + c using least squares
+%
+% Inputs:
+% x - column of x values (e.g. battery range)
+% y - column of y values (e.g. cost)
+% Outputs:
+% m - gradient
+% c - intercept
+%
+% Example: [m, c] = least_squares_linear(data.Range, data.Cost)
 
-x = data.Range; 
-y = data.Cost; 
+% Number of data points
+n = length(x);
 
-% Ensure both are column vectors for consistent matrix operations
-x = x(:); 
-y = y(:); 
+% Sums needed for the normal equations
+sum_x = sum(x);
+sum_y = sum(y);
+sum_x2 = sum(x.^2);
+sum_xy = sum(x.*y);
 
-% How many data points we have
-n = length(x); 
+% Minimising the sum of squared errors S means setting dS/dm = 0 and dS/dc = 0,
+% which gives these two equations:
+% m*sum_x2 + c*sum_x = sum_xy
+% m*sum_x  + c*n     = sum_y
+A = [sum_x2, sum_x;
+     sum_x,  n];
+b = [sum_xy;
+     sum_y];
 
-sumx = sum(x);
-sumy = sum(y);
-sumx2 = sum(x.^2);
-sumxy = sum(x.*y);
-
-% Minimising sum of squared residuals requires dS/db1 = 0 and dS/db0 = 0.
-% This gives the 2x2 normal equations below.
-A = [sumx2, sumx;
-     sumx, n    ];
-
-b = [sumxy;
-     sumy ];
-
+% Solve the two equations for m and c
 coeffs = A \ b;
-model.m = coeffs(1);  % slope (£ per mile of range)
-model.c = coeffs(2);  % intercept (£)
+m = coeffs(1);
+c = coeffs(2);
 
 end
