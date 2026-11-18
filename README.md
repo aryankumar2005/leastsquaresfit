@@ -1,6 +1,6 @@
 # Predicting used Nissan Leaf prices from battery range (MATLAB)
 
-Based on a project brief from my Numerical Methods and Programming module.
+Project 2 from my Numerical Methods and Programming module. I updated to include my marker's feedback improvements.
 
 Used cars are usually priced on mileage, but an electric car mostly loses value through battery wear. I wanted to see how well the remaining battery range predicts the price of a used Nissan Leaf, and whether it does better than mileage.
 
